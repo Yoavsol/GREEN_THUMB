@@ -6,7 +6,12 @@ Green Thumb is organized into five Android Gradle modules around an MVVM approac
 
 ## Main data flow
 
-```mermaid
+![Main data flow from Android screens through ViewModels and repositories to external services](images/data-flow.svg)
+
+<details>
+<summary>Editable Mermaid source</summary>
+
+```text
 flowchart LR
     UI[Activities and XML layouts] --> VM[ViewModels and LiveData]
     VM --> R[Repositories]
@@ -16,6 +21,8 @@ flowchart LR
     R --> G[Google Gemini]
     UI --> N[AlarmManager and local notifications]
 ```
+
+</details>
 
 This diagram describes the main flow, rather than a strict dependency boundary: some Activities also access Firestore directly, and Firebase types appear in domain entities.
 
@@ -33,7 +40,12 @@ This diagram describes the main flow, rather than a strict dependency boundary: 
 
 These are the project-to-project dependencies declared in the module build files:
 
-```mermaid
+![Gradle dependencies between the five Green Thumb modules](images/module-dependencies.svg)
+
+<details>
+<summary>Editable Mermaid source</summary>
+
+```text
 flowchart TD
     app --> VIEWMODEL
     app --> MODEL
@@ -45,6 +57,8 @@ flowchart TD
     REPOSITORY --> HELPER
     MODEL --> HELPER
 ```
+
+</details>
 
 ## Domain and persistence
 
@@ -68,12 +82,19 @@ Photos are handled through [FirebaseImageStorage](../REPOSITORY/src/main/java/co
 
 [CareTask](../MODEL/src/main/java/com/yoav_s/model/CareTask.java) defines five care types: `WATER`, `FERTILIZE`, `SPRAY`, `PRUNE`, and `REPOT`. A task stores `plantId`, `everyDays`, `nextDueAt`, `doneAt`, and a state:
 
-```mermaid
+![Care task transitions from scheduled to done or skipped](images/care-task-lifecycle.svg)
+
+<details>
+<summary>Editable Mermaid source</summary>
+
+```text
 stateDiagram-v2
     [*] --> SCHEDULED
     SCHEDULED --> DONE: Mark done
     SCHEDULED --> SKIPPED: Skip or handle overdue task
 ```
+
+</details>
 
 The completed or skipped task remains a historical occurrence. Recurrence creates another scheduled occurrence rather than turning the historical task back into a pending task. The UI and repository implement the recurrence logic; see [PlantDetailsActivity](../app/src/main/java/com/yoav_s/tashtit/ACTIVITIES/PlantDetailsActivity.java) and [CareTasksRepository](../REPOSITORY/src/main/java/com/yoav_s/repository/DB/CareTasksRepository.java).
 
