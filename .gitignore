@@ -1,0 +1,31 @@
+# Android / Gradle generated files
+.gradle/
+.kotlin/
+**/build/
+captures/
+.externalNativeBuild/
+.cxx/
+
+# Machine-specific SDK paths and API keys
+/local.properties
+
+# Local IDE state (existing tracked project settings remain versioned)
+.idea/workspace.xml
+.idea/tasks.xml
+.idea/shelf/
+.idea/caches/
+*.iml
+
+# Signing material
+*.jks
+*.keystore
+keystore.properties
+
+# Local environment files
+.env
+.env.*
+!.env.example
+
+# Operating system files
+.DS_Store
+Thumbs.db
